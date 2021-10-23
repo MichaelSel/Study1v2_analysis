@@ -39,7 +39,7 @@ def plot_bias():
     df['length'] = df['length'].astype('float')
     df['shifted-swapped'] = df['shifted-swapped'].astype('float')
 
-    sns.catplot(data=df, kind="bar", x="length", y="shifted-swapped", hue="type", ci="sd")
+    sns.catplot(data=df, kind="bar", x="length", y="shifted-swapped", hue="type")
     plt.show()
 
 
