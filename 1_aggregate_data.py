@@ -71,6 +71,9 @@ NN['PC_chromatic_chose_swapped'] = NN['chromatic_chose_swapped'] / NN['chromatic
 NN['diatonic_shifted-swapped'] = NN['PC_diatonic_chose_shifted'] - NN['PC_diatonic_chose_swapped']
 NN['chromatic_shifted-swapped'] = NN['PC_chromatic_chose_shifted'] - NN['PC_chromatic_chose_swapped']
 
+# Saving the "totals" dataframe to file.
+NN.to_csv("./trial_data.csv")
+
 """The data in NN is on the trial level. Creating a new variable that will hold the computed values at the subject 
 level """
 
@@ -101,6 +104,9 @@ totals['RT_chromatic_shifted'] = NN[(NN['type'] == "chromatic") & (NN['chose'] =
 # Holds RT in chromatic trials when the subject chose "swapped"
 totals['RT_chromatic_swapped'] = NN[(NN['type'] == "chromatic") & (NN['chose'] == "swapped")].groupby('subject')[
     'rt'].transform('mean')
+
+
+
 
 # Holds the number of (non-neither) diatonic trials
 totals['diatonic_trials'] = NN[(NN['type'] == "diatonic")].groupby('subject')['probe'].transform('count')
@@ -138,6 +144,9 @@ totals['RT_diatonic_sh-sw'] = totals['RT_diatonic_shifted'] - totals['RT_diatoni
 
 # RT delta (shifted-swapped) in chromatic trials
 totals['RT_chromatic_sh-sw'] = totals['RT_chromatic_shifted'] - totals['RT_chromatic_swapped']
+
+totals['RT_swapped_c-d'] = totals['RT_chromatic_swapped']-totals['RT_diatonic_swapped']
+totals['RT_shifted_c-d'] = totals['RT_chromatic_shifted']-totals['RT_diatonic_shifted']
 
 # % of diatonic trials where subject chose shifted
 totals['pc_diatonic_shifted'] = totals['diatonic_chose_shifted'] / totals['diatonic_trials']
