@@ -1,5 +1,5 @@
 # Set of functions for statistics. Main function to perform permutation tests for various statistical comparisons
-from statistics import mean, stdev
+from statistics import stdev
 from numpy import std, mean, sqrt
 from statsmodels.stats.anova import AnovaRM
 import numpy as np
@@ -18,7 +18,6 @@ def shuffle_panda(df, n, axis=0):
 
 # function to run permutation test for a variety of statistical comparisons. BehavMeasure ('RT' or 'PC')
 def permtest_ANOVA_paired(data_panda, behavMeasure, reps):
-
     # initialize vector to hold statistic on each iteration
     rand_vals = list()
 
@@ -35,7 +34,6 @@ def permtest_ANOVA_paired(data_panda, behavMeasure, reps):
 
     # loop through repetitions
     for ii in range(reps):
-
         print('\r{} of {}'.format(ii, reps), end='')
 
         # shuffle column with behavioral measure of interest (RT or PC)
@@ -66,9 +64,9 @@ def permtest_ANOVA_paired(data_panda, behavMeasure, reps):
 
     return obs_stat, prob
 
+
 # function to run permutation test for a pearson correlation
 def perm_t_test_paired(X, Y, reps):
-
     # convert input to numpy
     X = np.array(X)
     Y = np.array(Y)
@@ -84,7 +82,6 @@ def perm_t_test_paired(X, Y, reps):
     data_concat = np.concatenate((X, Y), axis=0)
 
     for ii in range(reps):
-
         print('\r{} of {}'.format(ii, reps), end='')
 
         # shuffle data and split into two random groups
@@ -114,7 +111,6 @@ def perm_t_test_paired(X, Y, reps):
 
 # function to run permutation test for a pearson correlation
 def permtest_corr(X, Y, reps):
-
     # convert input to numpy
     X = np.array(X)
     Y = np.array(Y)
@@ -152,9 +148,9 @@ def permtest_corr(X, Y, reps):
 
     return obs_stat, prob
 
+
 # function to run permutation test for differences (subtraction between two means for instance)
 def perm_bias_paired(X, Y, reps=10000):
-
     # convert input to numpy
     X = np.array(X)
     Y = np.array(Y)
@@ -170,7 +166,6 @@ def perm_bias_paired(X, Y, reps=10000):
     data_concat = np.concatenate((X, Y), axis=0)
 
     for ii in range(reps):
-
         print('\r{} of {}'.format(ii, reps), end='')
 
         # shuffle data and split into two random groups
@@ -199,7 +194,6 @@ def perm_bias_paired(X, Y, reps=10000):
 
 # Compute cohen's d for unpaired t-test
 def cohen_d(x, y):
-
     nx = len(x)
     ny = len(y)
     dof = nx + ny - 2
@@ -208,5 +202,14 @@ def cohen_d(x, y):
 
 # Compute cohen's d for paired t-test
 def cohen_d_av(x, y):
-
     return (mean(x) - mean(y)) / ((stdev(x) + stdev(y)) / 2)
+
+
+def cohen_dz(diff_vector):
+    sd = diff_vector.std()
+    m = diff_vector.mean()
+    return m / sd
+
+
+def t_value(X, Y):
+    return stats.ttest_rel(X, Y)
