@@ -23,6 +23,9 @@ avg_RT_by_subject = all_trials.groupby('subject', as_index=False)['rt'].mean()
 # remove all the trials where the subject chose "neither" (keep in a variable called N(o)N(eithers))
 NN = all_trials[all_trials['chose'] != 'neither']
 
+# # remove all the trials where the reaction time was longer than 5 seconds.
+# NN = all_trials[all_trials['rt'] < 5000]
+
 # Add column with the total number of trials each subject saw.
 NN['total_trials'] = NN.groupby(['subject'])['probe'].transform('count')
 

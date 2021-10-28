@@ -107,7 +107,7 @@ def plot_RT_hist():
         edgecolor=".3",
         linewidth=.5,
     )
-
+    plt.xlim([0,5000])
     plt.show()
 
 
@@ -165,8 +165,8 @@ def plot_RTs_by_melody_length(length=8):
     plt.show()
 
 
-# plot_bias()
-plot_RT()
+plot_bias()
+# plot_RT()
 # plot_RT_hist()
 # plot_RTs_by_melody_length(8)
 # plot_RTs_by_melody_length(12)
