@@ -1,6 +1,7 @@
 import seaborn as sns
 from misc_funcs import *
 import matplotlib.pyplot as plt
+import pandas as pd
 
 """The data structure used for seaborn"""
 format_general = [
@@ -165,9 +166,25 @@ def plot_RTs_by_melody_length(length=8):
     plt.show()
 
 
-plot_bias()
+
+
+# plot_bias()
 # plot_RT()
 # plot_RT_hist()
 # plot_RTs_by_melody_length(8)
 # plot_RTs_by_melody_length(12)
 # plot_RTs_by_melody_length(16)
+
+# pro = pd.read_csv("processed_data.csv")
+# frame1 = { 'rate_shifted': pro['pc_diatonic_shifted'], 'condition': 'diatonic' }
+# frame1 = pd.DataFrame(frame1)
+# frame2 = { 'rate_shifted': pro['pc_chromatic_shifted'], 'condition': 'chromatic' }
+# frame2 = pd.DataFrame(frame2)
+#
+#
+# pro = pd.concat([frame1,frame2]).reset_index()
+#
+# sns.displot(data=pro,x="rate_shifted")
+# plt.show()
+
+
