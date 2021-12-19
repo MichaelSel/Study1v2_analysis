@@ -11,11 +11,20 @@ format_general = [
         },
         'dynamic': {
             'subject': 'subject',
-            'shifted-swapped': 'chromatic_sh-sw',
             'length': 'melody_length',
+            'rt': 'RT_chromatic',
             'rt_shifted': 'RT_chromatic_shifted',
-            'rt_swapped': 'RT_chromatic_swapped'
-
+            'rt_swapped': 'RT_chromatic_swapped',
+            'rt_neither': 'RT_chromatic_neither',
+            'rt_sh-sw': 'RT_chromatic_sh-sw',
+            'rt_sh-sw': 'RT_chromatic_sh-sw',
+            'rate_shifted': 'rate_chromatic_shifted',
+            'rate_shifted (NN)': 'rate_chromatic_shifted (NN)',
+            'rate_swapped': 'rate_chromatic_swapped',
+            'rate_swapped (NN)': 'rate_chromatic_swapped (NN)',
+            'rate_neither': 'rate_chromatic_neither',
+            'sh-sw': 'chromatic_sh-sw',
+            'sh-sw (NN)': 'chromatic_sh-sw (NN)',
         }
     },
     {
@@ -24,12 +33,91 @@ format_general = [
         },
         'dynamic': {
             'subject': 'subject',
-            'shifted-swapped': 'diatonic_sh-sw',
             'length': 'melody_length',
+            'rt': 'RT_diatonic',
             'rt_shifted': 'RT_diatonic_shifted',
-            'rt_swapped': 'RT_diatonic_swapped'
+            'rt_swapped': 'RT_diatonic_swapped',
+            'rt_neither': 'RT_diatonic_neither',
+            'rt_sh-sw': 'RT_diatonic_sh-sw',
+            'rt_sh-sw': 'RT_diatonic_sh-sw',
+            'rate_shifted': 'rate_diatonic_shifted',
+            'rate_shifted (NN)': 'rate_diatonic_shifted (NN)',
+            'rate_swapped': 'rate_diatonic_swapped',
+            'rate_swapped (NN)': 'rate_diatonic_swapped (NN)',
+            'rate_neither': 'rate_diatonic_neither',
+            'sh-sw': 'diatonic_sh-sw',
+            'sh-sw (NN)': 'diatonic_sh-sw (NN)',
         }
     }
+]
+format_general2 = [
+    {
+        'static': {
+            'type': 'chromatic',
+            'condition': 'shifted'
+        },
+        'dynamic': {
+            'subject': 'subject',
+            'length': 'melody_length',
+            'rate': 'rate_chromatic_shifted',
+        }
+    },
+    {
+        'static': {
+            'type': 'chromatic',
+            'condition': 'swapped'
+        },
+        'dynamic': {
+            'subject': 'subject',
+            'length': 'melody_length',
+            'rate': 'rate_chromatic_swapped',
+        }
+    },
+    {
+        'static': {
+            'type': 'chromatic',
+            'condition': 'neither'
+        },
+        'dynamic': {
+            'subject': 'subject',
+            'length': 'melody_length',
+            'rate': 'rate_chromatic_neither',
+        }
+    },
+    {
+        'static': {
+            'type': 'diatonic',
+            'condition': 'shifted'
+        },
+        'dynamic': {
+            'subject': 'subject',
+            'length': 'melody_length',
+            'rate': 'rate_diatonic_shifted',
+        }
+    },
+    {
+        'static': {
+            'type': 'diatonic',
+            'condition': 'swapped'
+        },
+        'dynamic': {
+            'subject': 'subject',
+            'length': 'melody_length',
+            'rate': 'rate_diatonic_swapped',
+        }
+    },
+    {
+        'static': {
+            'type': 'diatonic',
+            'condition': 'neither'
+        },
+        'dynamic': {
+            'subject': 'subject',
+            'length': 'melody_length',
+            'rate': 'rate_diatonic_neither',
+        }
+    },
+
 ]
 
 
@@ -40,9 +128,21 @@ def plot_bias():
     # load and restructure the data to fit the seaborn format
     df = csv_to_pandas('./processed_data.csv', format_general)
     df['length'] = df['length'].astype('float')
-    df['shifted-swapped'] = df['shifted-swapped'].astype('float')
+    df['sh-sw'] = df['sh-sw'].astype('float')
+    sns.catplot(data=df, kind="bar", x="length", y="sh-sw", hue="type")
+    plt.show()
 
-    sns.catplot(data=df, kind="bar", x="length", y="shifted-swapped", hue="type")
+
+def plot_rate(length=16):
+    """plotting the bias ("% chose shifted- % chose swapped") in either condition (chromatic / diatonic) in every melody
+    length (8/12/16) """
+
+    # load and restructure the data to fit the seaborn format
+    df = csv_to_pandas('./processed_data.csv', format_general2)
+    df['length'] = df['length'].astype('float')
+    df['rate'] = df['rate'].astype('float')
+    temp = df[df['length']==length]
+    sns.catplot(data=temp, kind="bar", x="type", y="rate", hue="condition")
     plt.show()
 
 
@@ -108,7 +208,7 @@ def plot_RT_hist():
         edgecolor=".3",
         linewidth=.5,
     )
-    plt.xlim([0,5000])
+    plt.xlim([0, 5000])
     plt.show()
 
 
@@ -166,9 +266,7 @@ def plot_RTs_by_melody_length(length=8):
     plt.show()
 
 
-
-
-# plot_bias()
+plot_rate()
 # plot_RT()
 # plot_RT_hist()
 # plot_RTs_by_melody_length(8)
@@ -186,5 +284,3 @@ def plot_RTs_by_melody_length(length=8):
 #
 # sns.displot(data=pro,x="rate_shifted")
 # plt.show()
-
-
